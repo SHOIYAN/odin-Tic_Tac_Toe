@@ -19,21 +19,3 @@ const gameBoard = (function() {
     }
     
 })();
-
-const players = (function () {
-    const player1 = {name:'Player 1', sign: 'X'};
-    const player2 = {name:'Player 2', sign: 'O'};
-    function getName(player) {
-        return player.name;
-    }
-    function getSign (player) {
-        return player.sign;
-    }
-    return {
-        player1,
-        player2,
-        getName,
-        getSign
-    }
-})();
-
