@@ -1,9 +1,10 @@
 "use strict";
 
 const gameBoard = (function() {
-    let board = [null,null,null,null,null,null,null,null];
+    let board = [null,null,null,null,null,null,null,null,null];
     function updateBoard (index,sign){
-        board[index] = sign;
+        if (index > 9 || index < 1) return;
+        board[--index] = sign;
     }
     function getBoard () {
         return board;
