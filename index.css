@@ -1,0 +1,168 @@
+:root {
+  --deep-blue: #0d1b2a;
+  --blue-accent: #1b263b;
+  --cyan-accent: #415a77;
+  --light-gray: #e0e1dd;
+  --cell-bg: #2b4c7e;
+  --highlight: #778da9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--deep-blue);
+  color: var(--light-gray);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1.5fr 3fr;
+  width: 80%;
+  height: 90vh;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar {
+  background-color: var(--cyan-accent);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--light-gray);
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.inputs label {
+  font-weight: 500;
+}
+
+.inputs > input {
+  margin-bottom: 1rem;
+}
+
+.inputs input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--highlight);
+  color: var(--light-gray);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--light-gray);
+  color: var(--deep-blue);
+}
+
+.status {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--deep-blue);
+  position: relative;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 9rem);
+  grid-template-rows: repeat(3, 9rem);
+  gap: 0.5rem;
+}
+
+.cell {
+  background-color: var(--cell-bg);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--light-gray);
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.cell:hover {
+  background-color: var(--highlight);
+  transform: scale(1.04);
+}
+
+.status-bar {
+  position: absolute;
+  opacity: 0;
+  top: 5%;
+  text-align: center;
+  width: 100%;
+  color: var(--light-gray);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+.status-bar.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#status-message {
+  background-color: var(--blue-accent);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.status-bar.win #status-message {
+  background-color: var(--highlight);
+  color: var(--deep-blue);
+}
+
+.status-bar.tie #status-message {
+  background-color: var(--cyan-accent);
+}
