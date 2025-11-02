@@ -3,7 +3,7 @@
 const gameBoard = (function() {
     let board = [null,null,null,null,null,null,null,null,null];
     function updateBoard (index,sign){
-        if (index > 9 || index < 0) return;
+        if (index > 8 || index < 0 || board[index] !== null) return;
         board[index] = sign;
     }
     function getBoard () {
