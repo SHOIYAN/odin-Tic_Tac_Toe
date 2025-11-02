@@ -160,9 +160,9 @@ const displayController = (function () {
     const p1 = player1Input.value || 'Player 1';
     const p2 = player2Input.value || 'Player 2';
     players.setNames(p1,p2);
-    updateStatus(`${p1}'s Turn`);
     gameController.resetGame();
     renderBoard();
+    updateStatus(`${p1}'s Turn`);
   }
   function resetGame() {
     gameController.resetGame();
