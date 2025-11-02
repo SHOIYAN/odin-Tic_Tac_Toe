@@ -76,12 +76,16 @@ const gameController = (function () {
             }
         return false;
     }
+    function isGameOver() {
+      return gameOver;
+    }
     function resetGame() {
         gameBoard.reset();
         gameOver = false;
         roundCount = 0;
         currentPlayer = 1;
         winnerSign = null;
+        winnerPlayer = null;
     }
     function update(index){
         gameBoard.updateBoard(index,players.getSign(currentPlayer));
@@ -103,7 +107,7 @@ const gameController = (function () {
             switchPlayer();
            
     }
-    return { getCurrentPlayer,playRound, resetGame, getWinner};
+    return { getCurrentPlayer,playRound, resetGame, getWinner, isGameOver};
 })();
 
 const displayController = (function () {
@@ -132,7 +136,7 @@ const displayController = (function () {
     const index = parseInt(cell.dataset.index);
     const board = gameBoard.getBoard();
 
-    if (board[index] || gameController.getWinner()) return;
+    if (board[index] || gameController.getWinner() || gameController.isGameOver()) return;
 
     gameController.playRound(index);
     renderBoard();
@@ -154,7 +158,6 @@ const displayController = (function () {
     players.setNames(p1,p2);
     updateStatus(`${p1}'s Turn`);
     gameController.resetGame();
-    gameBoard.reset();
     renderBoard();
   }
   function resetGame() {
