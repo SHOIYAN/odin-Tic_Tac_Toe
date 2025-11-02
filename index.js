@@ -95,3 +95,64 @@ const gameController = (function () {
     }
     return { playRound, resetGame, getWinner};
 })();
+
+const displayController = (function () {
+  const cells = document.querySelectorAll('.cell');
+  const startBtn = document.querySelector('#startBtn');
+  const resetBtn = document.querySelector('#resetBtn');
+  const player1Input = document.querySelector('#player1Name');
+  const player2Input = document.querySelector('#player2Name');
+  const statusBar = document.querySelector('.status-bar');
+
+  function renderBoard() {
+    const board = gameBoard.getBoard();
+    cells.forEach((cell, index) => {
+      cell.textContent = board[index] ? board[index] : '';
+    });
+  }
+
+  function updateStatus(message) {
+    statusBar.textContent = message;
+    statusBar.classList.add('active');
+  }
+  function handleCellClick(e) {
+    const cell = e.target.closest('.cell');
+    if (!cell) return;
+
+    const index = parseInt(cell.dataset.index);
+    const board = gameBoard.getBoard();
+
+    if (board[index] || gameController.getWinner()) return;
+
+    gameController.playRound(index);
+    renderBoard();
+
+    const winner = gameController.getWinner();
+    if (winner) {
+      updateStatus(`${winner} Wins!`);
+    } else if (board.every(cell => cell !== null)) {
+      updateStatus("It's a Tie!");
+    }
+    
+  }
+  function startGame() {
+    const p1 = player1Input.value || 'Player 1';
+    const p2 = player2Input.value || 'Player 2';
+    updateStatus(`${p1}'s Turn`);
+    gameBoard.reset();
+    renderBoard();
+  }
+  function resetGame() {
+    gameController.resetGame();
+    renderBoard();
+    updateStatus('Game reset. Ready to start again!');
+  }
+  cells.forEach(cell =>
+    cell.addEventListener('click', handleCellClick)
+  );
+  startBtn.addEventListener('click', startGame);
+  resetBtn.addEventListener('click', resetGame);
+
+  renderBoard();
+
+})();
