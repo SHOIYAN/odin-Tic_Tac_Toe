@@ -23,6 +23,11 @@ const gameBoard = (function() {
 const players = (function () {
     const player1 = {name:'Player 1', sign: 'X'};
     const player2 = {name:'Player 2', sign: 'O'};
+
+    function setNames(name1, name2) {
+    player1.name = name1 || 'Player 1';
+    player2.name = name2 || 'Player 2';
+  }
     function getName(playerNum) {
         return playerNum === 1 ? player1.name : player2.name;
     }
@@ -30,6 +35,7 @@ const players = (function () {
         return playerNum === 1 ? player1.sign : player2.sign;
     }
     return {
+        setNames,
         getName,
         getSign
     }
@@ -40,6 +46,7 @@ const gameController = (function () {
     let gameOver = false;
     let roundCount = 0;
     let winnerSign = null;
+    let winnerPlayer = null;
 
     const winChances = [
             [0, 1, 2],
@@ -52,7 +59,10 @@ const gameController = (function () {
             [2, 4, 6]
         ]
     function getWinner() {
-    return winnerSign;
+    return winnerPlayer;
+    }
+    function getCurrentPlayer() {
+        return currentPlayer;
     }
     function checkWin() {
         let board = gameBoard.getBoard();
@@ -60,6 +70,7 @@ const gameController = (function () {
                     let [a,b,c] = chance;
                     if (board[a] != null && board[a] === board[b] && board[a] === board[c] ){
                         winnerSign = board[a];
+                        winnerPlayer = (board[a] === players.getSign(1)) ? 1 : 2;
                         return winnerSign;
                     }               
             }
@@ -92,7 +103,7 @@ const gameController = (function () {
             switchPlayer();
            
     }
-    return { playRound, resetGame, getWinner};
+    return { getCurrentPlayer,playRound, resetGame, getWinner};
 })();
 
 const displayController = (function () {
@@ -112,7 +123,7 @@ const displayController = (function () {
 
   function updateStatus(message) {
     statusBar.textContent = message;
-    statusBar.classList.add('active');
+    statusBar.classList.toggle('active',true);
   }
   function handleCellClick(e) {
     const cell = e.target.closest('.cell');
@@ -128,16 +139,21 @@ const displayController = (function () {
 
     const winner = gameController.getWinner();
     if (winner) {
-      updateStatus(`${winner} Wins!`);
+      updateStatus(`${players.getName(winner)} Wins!`);
     } else if (board.every(cell => cell !== null)) {
       updateStatus("It's a Tie!");
+    } else {
+        const nextPlayer = gameController.getCurrentPlayer();
+        updateStatus(`${players.getName(nextPlayer)}'s Turn`);
     }
     
   }
   function startGame() {
     const p1 = player1Input.value || 'Player 1';
     const p2 = player2Input.value || 'Player 2';
+    players.setNames(p1,p2);
     updateStatus(`${p1}'s Turn`);
+    gameController.resetGame();
     gameBoard.reset();
     renderBoard();
   }
