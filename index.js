@@ -91,7 +91,11 @@ const gameController = (function () {
         gameBoard.updateBoard(index,players.getSign(currentPlayer));
     }
     function checkTie(){
-        return roundCount >= 9 ;
+        if (roundCount >= 9) {
+          gameOver = true;
+          return true;
+        }
+      return false;
     }
     function switchPlayer(){
         currentPlayer = currentPlayer === 1 ? 2 : 1;
