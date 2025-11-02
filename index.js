@@ -13,7 +13,6 @@ const gameBoard = (function() {
         board.forEach((square,index,arr) => arr[index] = null);
     }
     return {
-        board,
         updateBoard,
         getBoard,
         reset 
